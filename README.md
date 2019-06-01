@@ -30,7 +30,7 @@ Open terminal and type below command.
 
 
 
-![alt text](https://github.com/rohitpandey50/City-Suggestion/blob/master/Screen Shot 2019-06-01 at 1.27.57 PM.png)    
-   
-     
+![alt text](https://github.com/rohitpandey50/City-Suggestion/blob/master/Screen%20Shot%202019-06-01%20at%201.27.57%20PM.png)    
+ ![alt text](https://github.com/rohitpandey50/City-Suggestion/blob/master/Screen%20Shot%202019-06-01%20at%201.47.09%20PM.png)
+  
     
