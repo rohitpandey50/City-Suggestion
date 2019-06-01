@@ -29,8 +29,4 @@ Open terminal and type below command.
   
 
 
-
-![alt text](https://github.com/rohitpandey50/City-Suggestion/blob/master/Screen%20Shot%202019-06-01%20at%201.27.57%20PM.png)    
- ![alt text](https://github.com/rohitpandey50/City-Suggestion/blob/master/Screen%20Shot%202019-06-01%20at%201.47.09%20PM.png)
-  
     
