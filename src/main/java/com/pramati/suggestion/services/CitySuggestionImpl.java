@@ -3,15 +3,10 @@ package com.pramati.suggestion.services;
 
 import com.opencsv.CSVReader;
 
-
-import org.apache.tomcat.util.http.fileupload.FileUtils;
-import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
-import java.io.FileReader;
-import java.nio.file.Path;
+import java.io.InputStreamReader;
 import java.util.*;
 
 @Service
@@ -23,7 +18,7 @@ public class CitySuggestionImpl implements CitySuggestion {
        Set<String> records=redRecordFromCSV(prefix,atmost);
        //If no records found return message;
        if(records.isEmpty())
-           return "No city start with this char";
+           return "No city found.";
        for(String record:records) {
            stringBuilder.append(record+System.lineSeparator());
        }
@@ -41,10 +36,9 @@ public class CitySuggestionImpl implements CitySuggestion {
     public Set<String> redRecordFromCSV(String prefix,  int atmost)
     {
         try {
-            File file = new ClassPathResource("city_data.csv").getFile();
-            if(!file.exists())
-                file=getFileFromInputStream();
-            CSVReader csvReader = new CSVReader(new FileReader(file));
+
+            ClassPathResource cpr = new ClassPathResource("static/city_data.csv");
+            CSVReader csvReader = new CSVReader(new InputStreamReader(cpr.getInputStream()));
             Set<String> suggestion=new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
             String[] nextRecord;
            /*Ignore first row and loop the csv row records and find each row record in nextRecord array.
@@ -65,13 +59,6 @@ public class CitySuggestionImpl implements CitySuggestion {
         catch (Exception e) {
             return Collections.emptySet();
         }
-    }
-
-
-    private File getFileFromInputStream()
-    {
-        ClassLoader classLoader = getClass().getClassLoader();
-        return new File(classLoader.getResource("city_data.csv").getFile());
     }
 
 
