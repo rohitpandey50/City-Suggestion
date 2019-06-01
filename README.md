@@ -13,7 +13,7 @@ Open terminal and type below command.
     
      "mvn spring-boot:run"
     
-  To test application type "curl http://localhost:8081/suggested_city?start=Ch&atmost=10" in your terminal. 
+  To test application type "curl http://localhost:8081/suggest_cities?start=H&atmost=10" in your terminal. 
   
   
   
