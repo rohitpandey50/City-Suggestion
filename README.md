@@ -30,9 +30,7 @@ Open terminal and type below command.
 
 
 
-
-
-    
+![alt text](https://github.com/rohitpandey50/City-Suggestion/blob/master/Screen Shot 2019-06-01 at 1.27.57 PM.png)    
    
      
     
