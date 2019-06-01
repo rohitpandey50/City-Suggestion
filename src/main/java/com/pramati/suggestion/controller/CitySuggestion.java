@@ -16,7 +16,7 @@ public class CitySuggestion {
     @Autowired
     CitySuggestionImpl citySuggestion;
 
-    @RequestMapping("/suggested_city")
+    @RequestMapping("/suggest_cities")
     public String getCityList(@NotNull @NotEmpty @RequestParam("start") String start, @RequestParam("atmost") int atmost)
     {
         return  citySuggestion.getSuggestion(start,atmost);
