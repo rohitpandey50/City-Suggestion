@@ -4,20 +4,23 @@ package com.pramati.suggestion.services;
 import com.opencsv.CSVReader;
 
 
+import org.apache.tomcat.util.http.fileupload.FileUtils;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.FileReader;
+import java.nio.file.Path;
 import java.util.*;
 
 @Service
 public class CitySuggestionImpl implements CitySuggestion {
 
     @Override
-    public String getSuggestion(String prefix, int numberOfRecords) {
+    public String getSuggestion(String prefix, int atmost) {
        StringBuilder stringBuilder=new StringBuilder();
-       Set<String> records=redRecordFromCSV(prefix,numberOfRecords);
+       Set<String> records=redRecordFromCSV(prefix,atmost);
        //If no records found return message;
        if(records.isEmpty())
            return "No city start with this char";
@@ -28,28 +31,33 @@ public class CitySuggestionImpl implements CitySuggestion {
     }
 
 
-    /** Read csv file line by line and and match prefix if found add in separate list.
-     * csv file also contain duplicate data and case insensitive name that why TreeSet used.
-     *
+    /**Open CSV used to read csv file row wise and match prefix if found then add in separate set.
+     * csv file also contain duplicate city name and case insensitive name.It will return unique suggestion name for city.
+     * Used TreeSet to contain unique city name and ignore case insensitive .
      * @param prefix
-     * @param numberOfRecords
+     * @param atmost
      * @return
      */
-    public Set<String> redRecordFromCSV(String prefix,  int numberOfRecords)
+    public Set<String> redRecordFromCSV(String prefix,  int atmost)
     {
         try {
             File file = new ClassPathResource("city_data.csv").getFile();
+            if(!file.exists())
+                file=getFileFromInputStream();
             CSVReader csvReader = new CSVReader(new FileReader(file));
             Set<String> suggestion=new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
             String[] nextRecord;
-            // search all the row for given prefix
+           /*Ignore first row and loop the csv row records and find each row record in nextRecord array.
+           nextRecords contain array of column value in single row.*/
+            csvReader.readNext();
             while ((nextRecord = csvReader.readNext()) != null) {
-                //In CSV file column 7 is city name
+
+                //In each row city is at 7 column, change nextRecord index in case csv column ordering change.
                 if(nextRecord[7].toUpperCase().startsWith(prefix.toUpperCase()))
                     suggestion.add(nextRecord[7]);
 
                 // check if atmost records have been completed, break the loop and return that list;
-                if(suggestion.size()==numberOfRecords)
+                if(suggestion.size()==atmost)
                     return suggestion;
             }
             return suggestion;
@@ -57,6 +65,13 @@ public class CitySuggestionImpl implements CitySuggestion {
         catch (Exception e) {
             return Collections.emptySet();
         }
+    }
+
+
+    private File getFileFromInputStream()
+    {
+        ClassLoader classLoader = getClass().getClassLoader();
+        return new File(classLoader.getResource("city_data.csv").getFile());
     }
 
 
